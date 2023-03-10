@@ -20,4 +20,5 @@
 2. make sure it has the uac shield logo in the corner of its icon
 3. drag it over bypass.bat
 4. have fun
+
 NOTE: if antivirus is detecing bypass.bat, do this with newbypass.bat
