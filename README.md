@@ -8,6 +8,8 @@
 4. enter your password list (passlist.txt for default passlist)
 5. wait
 
+NOTE: if it stops at a random attempt that means the password its on contains one of these characters: !><|^ (or another weird character), just delete that attempt from the file and restart
+
 # Fake UAC Prompt
 1. close any cmd windows you got open
 2. run main.vbs
