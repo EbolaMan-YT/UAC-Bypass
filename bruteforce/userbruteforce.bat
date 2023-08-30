@@ -1,8 +1,7 @@
 @echo off
-title userbruteforce - PIN Brute Force
+title userbruteforce - Ebola Man
 setlocal enabledelayedexpansion
 chcp 65001 >nul
-
 :start
 cls
 set error=-
@@ -24,7 +23,6 @@ echo    ║  1. List Users     ║
 echo    ║  2. Bruteforce     ║
 echo    ║  3. Exit           ║
 echo    ╚════════════════════╝
-
 :input
 set /p "=>> " <nul
 choice /c 123 >nul
