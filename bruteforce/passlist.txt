@@ -19,6 +19,7 @@ password123
 1234
 12345
 qwerty
+azerty
 webadmin
 webmaster
 maintenance
